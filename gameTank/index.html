@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div width="400" height="400">
+        <canvas id="myCanvas" width="400" height="400" style="border: solid 1px; display: none;" tabindex="0"></canvas>
+        <div style="width: 400px; height: 400px; border: solid 1px;" id="startScreen">
+            <div style=" margin: auto; width: 100px;">
+                <button style="border: solid 1px; padding: 4px; font-size: 20pt; cursor: pointer;" onclick="startGame()" id="startButton">START</button>
+            </div>
+            <div style="border: solid 1px; padding: 4px; font-size: 20pt; margin: auto; width: 200px; display: none;" id="endGameText"></div>
+        </div>
+    </div>
+
+    <script src="js/tank.js"></script>
+    <script src="js/obstacle.js"></script>
+    <script src="js/cannonball.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/constants.js"></script>
+    <script src="js/start.js"></script>
+</body>
+</html>
