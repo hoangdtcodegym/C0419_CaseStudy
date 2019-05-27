@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<canvas id="canvas" width="500px" height="550px" style="border: 1px solid"></canvas>
+<script>
+    function Ball(mapWidth, mapHeight) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+
+        this.radius = 10;
+        this.speedX = 4;
+        this.speedY = -4;
+
+        this.cx = Math.floor(mapWidth/2);
+        this.cy = mapHeight-100;
+
+        this.color = "green";
+        this.running = true;
+    }
+    Ball.prototype.update = function() {
+        if(this.running)
+        {
+            this.cx += this.speedX;
+            this.cy += this.speedY;
+
+            if(this.cx-this.radius < 0 || this.cx+this.radius>this.mapWidth)
+                this.speedX = -this.speedX;
+
+            if(this.cy-this.radius < 0)
+                this.speedY = -this.speedY;
+            else if(this.cy+this.radius>this.mapHeight)
+                this.running = false;
+            //this.speedY = -this.speedY;
+        }
+    }
+    Ball.prototype.draw = function(context) {
+        context.beginPath();
+        context.fillStyle = this.color;
+        context.arc(this.cx, this.cy, this.radius, 0, Math.PI * 2, true);
+        context.closePath();
+        context.fill();
+    }
+    Ball.prototype.collide = function(rect) {
+        if(!this.running)
+            return;
+        let p = { x: this.cx, y: this.cy};
+
+        if(p.x < rect.left)
+            p.x = rect.left;
+        else if(p.x > rect.right)
+            p.x = rect.right;
+
+        if(p.y < rect.top)
+            p.y = rect.top;
+        else if(p.y > rect.bottom)
+            p.y = rect.bottom;
+
+        let dx = this.cx - p.x;
+        let dy = this.cy - p.y;
+
+        let isCollided = (dx*dx + dy*dy) <= this.radius*this.radius;
+
+        if(isCollided)
+        {
+
+            if(p.x == rect.left || p.x == rect.right)
+                this.speedX = -this.speedX;
+
+            if(p.y == rect.top || p.y == rect.bottom)
+                this.speedY = -this.speedY;
+        }
+        return isCollided;
+    }
+
+
+
+    function Rect(left, top, width, height,color) {
+        this.width = width;
+        this.height = height;
+
+        this.left = left;
+        this.top = top;
+        this.right = this.left + width;
+        this.bottom = this.top + height;
+
+        this.color = color;
+    }
+    Rect.prototype.moveTo = function(x) {
+
+        this.left = x - this.width/2;
+
+        this.right = this.left + this.width;
+    }
+
+    Rect.prototype.draw = function(context) {
+        context.fillStyle = this.color;
+        context.fillRect(this.left, this.top, this.width, this.height);
+    }
+
+
+   let FPS = 60;
+    let BRICK_WIDTH = 40;
+    let BRICK_HEIGHT = 20;
+    let BRICK_ROWS = 3;
+    let BRICK_COLS = 8;
+
+    let canvas;
+    let context;
+    let ball;
+    let paddle;
+    let bricks = [];
+    let timer;
+
+    function canvas_mousemove(e) {
+        let x = e.pageX - canvas.offsetLeft;
+
+        paddle.moveTo(x);
+    }
+
+    function clear() {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function draw() {
+        clear();
+
+        for (let i=0; i < BRICK_ROWS; i++) {
+            for (let j=0; j < BRICK_COLS; j++) {
+                if(bricks[i][j])
+                    bricks[i][j].draw(context);
+            }
+        }
+
+        ball.draw(context);
+        paddle.draw(context);
+    }
+
+    function update() {
+        ball.update();
+
+        for (let i=0; i < BRICK_ROWS; i++) {
+            for (let j=0; j < BRICK_COLS; j++) {
+                if(bricks[i][j] && ball.collide(bricks[i][j]))
+                    bricks[i][j] = null;
+            }
+        }
+        ball.collide(paddle);
+        draw();
+    }
+    function init(){
+        let paddleWidth = 70;
+        let paddleHeight = 10;
+        canvas = document.getElementById("canvas");
+        canvas.onmousemove = canvas_mousemove;
+        context = canvas.getContext("2d");
+
+        ball = new Ball(canvas.width, canvas.height);
+        paddle = new Rect((canvas.width-paddleWidth)/2,canvas.height-paddleHeight-20,paddleWidth,paddleHeight,"brown");
+
+        // init bricks
+        bricks = new Array(BRICK_ROWS);
+        for (let i=0; i < BRICK_ROWS; i++) {
+            bricks[i] = new Array(BRICK_COLS);
+            for (let j=0; j < BRICK_COLS; j++) {
+                bricks[i][j] = new Rect(j*(BRICK_WIDTH+5)+10, i*(BRICK_HEIGHT+5)+10,BRICK_WIDTH,BRICK_HEIGHT,"blue");
+            }
+        }
+        // start
+        timer = window.setInterval(update,1000/FPS);
+    }
+
+
+
+    window.onload = function(){
+        init();
+    }
+</script>
+</body>
+</html>
