@@ -15,7 +15,7 @@ const HOUSE_NAME = document.getElementById("house_name");
 const PLAYER_NAME_INPUT = document.getElementById("player_name_input");
 const PLAYER_SCORE = document.getElementById("player_score");
 const LEADER_BOARD = document.getElementById("leader_board");
-const DEALING_DELAY = 200;
+const DEALING_DELAY = 0;
 let player;
 let house;
 let dealer;
@@ -29,6 +29,10 @@ HOUSE_CARD.innerHTML = "";
 PLAYER_POINT.innerHTML = "";
 HOUSE_POINT.innerHTML = "";
 WINNING_SHOW.innerHTML = "";
+
+PLAYER_NAME_INPUT.onclick=function(){
+    PLAYER_NAME_INPUT.value="";
+}
 
 START_GAME_BTN.onclick = function () {
     if(is_userName(PLAYER_NAME_INPUT.value)){
