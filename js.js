@@ -3,6 +3,20 @@ let ctx = c.getContext("2d");
 let d;
 let score = 0;
 let gameOver = false;
+//audio
+let dead = new Audio();
+let eat = new Audio();
+let up = new Audio();
+let right = new Audio();
+let left = new Audio();
+let down = new Audio();
+
+dead.src = "audio/dead.mp3";
+eat.src = "audio/eat.mp3";
+up.src = "audio/up.mp3";
+right.src = "audio/right.mp3";
+left.src = "audio/left.mp3";
+down.src = "audio/down.mp3";
 let Snake = function () {
     this.spees = 10;
     this.array = [];
@@ -85,6 +99,7 @@ function logic(event) {
 function snakeVsFood() {
     if (Math.abs(snake.array[0].x - food.x) <= 20 && Math.abs(snake.array[0].y - food.y) <= 20) {
         score++;
+        eat.play();
         snake.array.push({x: food.x, y: food.y});
         food.x = Math.floor(Math.random() * 10 + 10) * 10;
         food.y = Math.floor(Math.random() * 10 + 10) * 10;
@@ -99,13 +114,28 @@ function tao() {
     snake.taoDuoi();
     snake.headVsArray();
     //chuyen dong
-    if (d == 'sangTrai') snake.array[0].x -= snake.spees;
-    if (d == 'sangPhai') snake.array[0].x += snake.spees;
-    if (d == 'lenTren') snake.array[0].y -= snake.spees;
-    if (d == 'xuongDuoi') snake.array[0].y += snake.spees;
-    if (d == 'tangToc') snake.spees++;
+    if (d == 'sangTrai') {
+        snake.array[0].x -= snake.spees;
+        left.play();
+    }
+    if (d == 'sangPhai') {
+        snake.array[0].x += snake.spees;
+        right.play();
+    }
+    if (d == 'lenTren') {
+        snake.array[0].y -= snake.spees;
+        up.play();
+    }
+    if (d == 'xuongDuoi') {
+        snake.array[0].y += snake.spees;
+        down.play();
+    }
+    if (d == 'tangToc') {
+        snake.spees++;
+    }
     //cham vien
     if (snake.array[0].x < 10 || snake.array[0].x > 360 - 10 || snake.array[0].y < 10 || snake.array[0].y > 360 - 10 || gameOver == true) {
+        dead.play();
         clearInterval(game);
         alert("game over");
     }
