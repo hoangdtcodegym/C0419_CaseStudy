@@ -60,8 +60,8 @@ let Snake = function () {
 
 
 let Food = function () {
-    this.x = Math.floor(Math.random() * 17 + 3) * 10;
-    this.y = Math.floor(Math.random() * 15 + 4) * 10;
+    this.x = Math.floor(Math.random() * 101)*3;
+    this.y = Math.floor(Math.random() * 101)*3;
     this.radius = 10;
     this.taoFood = taoFood;
 
