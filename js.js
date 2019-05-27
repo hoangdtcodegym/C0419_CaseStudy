@@ -7,15 +7,14 @@ let Snake = function () {
     this.spees = 10;
     this.array = [];
     this.radius = 10;
-    this.taoSnake = taoSnake;
-    this.taoDuoi = taoDuoi;
-    this.headVsArray = headVsArray;
-    this.logic=logic;
     this.getArray = function () {
         this.array[0] = {
             x: 8 * 10, y: 8 * 10
         }
     };
+    this.taoSnake = taoSnake;
+    this.taoDuoi = taoDuoi;
+    this.headVsArray = headVsArray;
 
     function taoSnake() {
         ctx.beginPath();
@@ -43,20 +42,8 @@ let Snake = function () {
             }
         }
     }
-    function logic(event) {
-        if (event.keyCode == 37 && d != "sangPhai") {
-            d = 'sangTrai';
-        } else if (event.keyCode == 38 && d != "xuongDuoi") {
-            d = 'lenTren';
-        } else if (event.keyCode == 39 && d != "sangTrai") {
-            d = 'sangPhai';
-        } else if (event.keyCode == 40 && d != "lenTren") {
-            d = 'xuongDuoi';
-        } else if (event.keyCode == 17) {
-            d = 'tangToc';
-        }
-    }
 };
+
 
 let Food = function () {
     this.x = Math.floor(Math.random() * 17 + 3) * 10;
@@ -72,13 +59,28 @@ let Food = function () {
         ctx.stroke();
     }
 };
-
 let snake = new Snake();
-document.addEventListener('keydown', logic);
-snake.logic();
 snake.getArray();
 
+
 let food = new Food();
+
+document.addEventListener('keydown', logic);
+
+function logic(event) {
+    if (event.keyCode == 37 && d != "sangPhai") {
+        d = 'sangTrai';
+    } else if (event.keyCode == 38 && d != "xuongDuoi") {
+        d = 'lenTren';
+    } else if (event.keyCode == 39 && d != "sangTrai") {
+        d = 'sangPhai';
+    } else if (event.keyCode == 40 && d != "lenTren") {
+        d = 'xuongDuoi';
+    } else if (event.keyCode == 17) {
+        d = 'tangToc';
+    }
+}
+
 
 function snakeVsFood() {
     if (Math.abs(snake.array[0].x - food.x) <= 20 && Math.abs(snake.array[0].y - food.y) <= 20) {
