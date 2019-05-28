@@ -1,0 +1,15 @@
+.Car {
+    border: solid 1px black;
+    text-align: center;
+    font-size: 100px;
+    background: aliceblue;
+}
+
+body {
+    margin: 0px !important;
+    background: black;
+}
+
+.text {
+    color: aliceblue;
+}
