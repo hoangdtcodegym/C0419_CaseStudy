@@ -7,6 +7,9 @@ let timeWon;
 let PlayWin =["Linh","15000","Linh","15000"];
 let nameplay = document.getElementById("nameplay");
 let scoreplay = document.getElementById("scoreplay");
+let myAudio = new Audio("click.mp3");
+let myAudiowin = new Audio("win.mp3");
+
 
 function ShowImage(number, colrow) {
     starttime = new Date()
@@ -54,6 +57,7 @@ function ShowImage(number, colrow) {
 
 
 function Click(img, name) {
+    myAudio.play();
     count++;
     //console.log(count);
     this.name = name;
@@ -88,6 +92,7 @@ function Check(item1, item2) {
         checkwin.push(1,1);
         let coutCheckWin = checkwin.length;
         if(coutCheckWin >=16){
+            myAudiowin.play();
             endtime = new Date();
             timeWon = endtime - starttime;
             let whoPlay = prompt("You Won with: "+timeWon+"mini second. Inset Your Name" );
@@ -95,7 +100,8 @@ function Check(item1, item2) {
             let Board = new ShowImage(8, 4);
             Board.addImg();
             Board.drawImg();
-            coutCheckWin = [];
+            checkwin = [];
+            // coutCheckWin = [];
             nameplay.innerHTML="";
             LeaderBoard();
         }
