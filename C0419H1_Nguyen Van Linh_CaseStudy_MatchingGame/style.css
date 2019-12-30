@@ -1,0 +1,48 @@
+img {
+    width: 80px;
+    height: 80px;
+    margin-right: 5px;
+}
+body{
+    text-align: center;
+}
+table{
+    margin: 0 auto;
+}
+.contentgame{
+    width: calc(100% - 304px);
+
+}
+.leaderboard{
+    width: 300px;
+}
+.content{
+    background: azure;
+    min-height: 500px;
+    float: left;
+    border: 1px solid aqua;
+    padding-top: 40px;
+    text-align: center;
+}
+.board{
+    width: 50%;
+    float: left;
+    background: aqua;
+    border-bottom: 1px solid red;
+}
+.board:nth-child(2n){
+    background: chartreuse;
+}
+.board:hover{
+    background: yellow;
+}
+button {
+    width: 120px;
+    height: 50px;
+    font-weight: bold;
+    background: chartreuse;
+    color: red;
+}
+button:hover{
+    background: gold;
+}
